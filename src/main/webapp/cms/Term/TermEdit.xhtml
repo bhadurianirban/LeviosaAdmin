@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="termslug" value="#{termEdit.termSlug}"></f:viewParam>
+            <f:viewAction action="#{termEdit.fillTermValues()}"/>
+        </f:metadata>
+        <div class="card">
+            <h1>Edit Term</h1>
+            Term details
+        </div>
+        <p:panel>
+            <h:form id="editTerm" styleClass="instanceform">
+
+                <p:panelGrid columns="2">
+                    <h:outputLabel for="slug" value="Slug:" />
+                    <h:inputText id="slug" value="#{termEdit.termEdit.termSlug}" disabled="true"/>
+                    <h:outputLabel for="name" value="Name:" />
+                    <h:inputText id="name" value="#{termEdit.termEdit.name}" />
+                    <h:outputLabel for="description" value="Description:" />
+                    <h:inputText id="description" value="#{termEdit.termEdit.description}" />
+
+                    <h:outputLabel for="screen" value="Screen" />
+                    <h:inputText id="screen" value="#{termEdit.termEdit.screen}" />
+                    <h:outputLabel for="roles" value="Roles" />
+                    <p:selectCheckboxMenu id="roles" label="Select Role" value="#{termEdit.selectedRoles}" required="true" multiple="true">
+                        <f:selectItems value="#{termEdit.roleList}" />
+                    </p:selectCheckboxMenu>
+                    
+                </p:panelGrid>
+                <div class="card">
+                    <p:commandButton styleClass="button" value="Change" action="#{termEdit.saveTerm()}"/>
+                    <p:button styleClass="back-button" value="Back" outcome="TermList" />
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

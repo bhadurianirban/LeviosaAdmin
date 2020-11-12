@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <ui:composition template="/WEB-INF/template.xhtml">
+            <ui:define name="content">
+                <p:growl id="growl" globalOnly="true" sticky="true" showDetail="true" life="5" autoUpdate="true" />
+                <f:metadata>
+                    <f:viewAction action="#{termList.fillTermList()}"/>
+                </f:metadata>
+                <div class="card">
+                    <h1>Maintain Term</h1>
+                    <h4>List of terms defined.</h4>
+                </div>
+                <p:panel id="termBlk">
+                    <h:form id="gardentermlist">    
+                        <p:button styleClass="button" value="Add" outcome="TermAdd"/>
+                        <p:button styleClass="back-button" value="Back" outcome="Landing" />
+                        <br /><br />
+                    
+                        <p:dataTable var="term" value="#{termList.termListInMap}" reflow="true" paginator="true" rows="10">
+                            <p:column headerText="Slug" sortBy="#{term['termSlug']}">
+                                <h:outputText value="#{term['termSlug']}" />
+                            </p:column>
+                            <p:column headerText="Name" sortBy="#{term['termName']}">
+                                <h:outputText value="#{term['termName']}" />
+                            </p:column>
+                            <p:column headerText="Description" sortBy="#{term['termDescription']}">
+                                <h:outputText value="#{term['termDescription']}" />
+                            </p:column>
+                            <p:column headerText="Screen">
+                                <h:outputText value="#{term['termScreen']}" />
+                            </p:column>
+
+                            <p:column headerText="Add Meta">
+                                <p:commandButton styleClass="button" icon="ui-icon-pencil" title="Add Meta" action="TermMetaList">
+                                    <f:setPropertyActionListener value="#{term}" target="#{termList.selectedTerm}" />
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Change" >
+                                <p:commandButton styleClass="button" icon="ui-icon-pencil" title="Edit" action="TermEdit">
+                                    <f:setPropertyActionListener value="#{term}" target="#{termList.selectedTerm}" />
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Delete">
+                                <p:commandButton styleClass="delete-button" rendered="#{!term.allowDelete}" update=":deleteTerm" oncomplete="PF('delete').show()" icon="ui-icon-trash" title="Delete">
+                                    <f:setPropertyActionListener value="#{term}" target="#{termList.selectedTerm}" />
+                                </p:commandButton>
+                                <h:outputText rendered="#{term.allowDelete}" value="Delete Meta Data for this term."/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                    <br />
+                   
+                        
+                   
+                </p:panel>
+
+                <p:dialog header="Sure to delete" widgetVar="delete" minHeight="50">
+                    <h:form id="deleteTerm">
+                        <p:commandButton  oncomplete="PF('bui').show();PF('delete').hide()" value="Delete" action="#{termList.deleteTerm()}">
+                            <f:setPropertyActionListener value="#{termList.selectedTerm}" target="#{termList.selectedTerm}" />
+                        </p:commandButton>
+                    </h:form>
+                </p:dialog>
+                <p:blockUI  block="termBlk" widgetVar="bui">
+                    Deleting.
+                </p:blockUI>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

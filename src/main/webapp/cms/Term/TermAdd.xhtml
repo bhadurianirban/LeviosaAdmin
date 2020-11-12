@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/template.xhtml">
+
+            <ui:define name="content">
+                <p:growl id="growl" globalOnly="true" sticky="true" showDetail="true" life="5" autoUpdate="true" />
+                <f:metadata>
+
+                    <f:viewAction action="#{termAdd.fillTermValues()}"/>
+                </f:metadata>
+                <div class="card">
+                    <h1>Add Term</h1>
+                    Add new Term
+                </div>
+
+                <p:panel>
+                    <h:form id="addtermform" styleClass="instanceform">
+                        <p:panelGrid columns="3">
+
+                            <h:outputLabel for="slug" value="Slug:" />
+                            <h:inputText id="slug" value="#{termAdd.termAdd.termSlug}" required="true">
+                                <f:validator validatorId="custom.termSlugValidator" />
+                            </h:inputText>
+                            <p:message for="slug" />
+                            <h:outputLabel for="name" value="Name:" />
+                            <h:inputText id="name" value="#{termAdd.termAdd.name}" required="true"/>
+                            <p:messages for="name"/>
+                            <h:outputLabel for="description" value="Description:" />
+                            <h:inputText id="description" value="#{termAdd.termAdd.description}" />
+                            <p:messages for="description"/>
+
+                            <h:outputLabel for="screen" value="Screen" />
+                            <h:inputText id="screen" value="#{termAdd.termAdd.screen}" />
+
+                            <p:messages for="screen"/>
+                            <h:outputLabel for="roles" value="Roles" />
+                            <p:selectCheckboxMenu id="roles" label="Select Role" value="#{termAdd.selectedRoles}" required="true" multiple="true">
+
+                                <f:selectItems value="#{termAdd.roleList}" />
+                            </p:selectCheckboxMenu>
+                            <p:messages for="roles"/>
+                        </p:panelGrid>
+                        <div class="card">
+                            <p:commandButton styleClass="button" value="Add" validateClient="true" ajax="false" action="#{termAdd.add()}" /> 
+                            <p:button styleClass="back-button" value="Back" outcome="TermList" />
+                        </div>
+                    </h:form>
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

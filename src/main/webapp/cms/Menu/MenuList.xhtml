@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/template.xhtml">
+
+            <ui:define name="content">
+                <f:metadata>
+                    <f:viewAction action="#{menuList.createMenuList()}"/>
+                </f:metadata>
+                <div class="card">
+                    <h1>Manage Menu</h1>
+                    List of Menus  
+                </div>
+                <p:panel id="menulistpanel">
+                    <p:growl id="growl" globalOnly="true" sticky="true" showDetail="true" life="5" autoUpdate="true" />
+                    <h:form id="menulist">
+                        <p:button styleClass="button" value="Add" outcome="MenuAdd"/>
+                        <p:button styleClass="back-button" value="Back" outcome="Landing" />
+                        <br /><br />
+                        <p:dataTable var="menu" value="#{menuList.menuBeanMapList}" reflow="true" paginator="true" rows="10">
+                            <p:column headerText="Id" sortBy="#{menu['id']}" >
+                                <h:outputText value="#{menu['id']}" />
+                            </p:column>
+                            <p:column headerText="Name" sortBy="#{menu['name']}">
+                                <h:outputText value="#{menu['name']}" />
+                            </p:column>
+                            <p:column headerText="Parent" sortBy="#{menu['parentName']}">
+                                <h:outputText value="#{menu['parentName']}" />
+                            </p:column>
+                            <p:column headerText="Term" sortBy="#{menu['term']}">
+                                <h:outputText value="#{menu['term']}" />
+                            </p:column>
+                            
+                            <p:column headerText="Change" >
+                                <p:commandButton styleClass="button" icon="ui-icon-pencil" title="Edit" action="MenuEdit">
+                                    <f:setPropertyActionListener value="#{menu}" target="#{menuList.selectedMenu}" />
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="Actions">
+                                <p:commandButton styleClass="delete-button" rendered="#{menu['hasChild'] == 'no'}" update=":deleteMenu" oncomplete="PF('delete').show()" icon="ui-icon-trash" title="Delete">
+                                    <f:setPropertyActionListener value="#{menu}" target="#{menuList.selectedMenu}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+                <p:dialog header="Sure to delete" widgetVar="delete" minHeight="50">
+                    <h:form id="deleteMenu">
+                        <p:commandButton update=":msgdialog" oncomplete="PF('bui').show();PF('delete').hide()" value="Delete" action="#{menuList.deleteMenu()}">
+                            <f:setPropertyActionListener value="#{menuList.selectedMenu}" target="#{menuList.selectedMenu}" />
+                        </p:commandButton>
+                    </h:form>
+                </p:dialog>
+                <p:blockUI  block="menulistpanel" widgetVar="bui">
+                    <h:form id="msgdialog">
+                        Deleting...
+                    </h:form>
+                </p:blockUI>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

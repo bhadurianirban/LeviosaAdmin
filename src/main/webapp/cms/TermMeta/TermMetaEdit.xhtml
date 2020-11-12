@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:body>
+        <ui:composition template="/WEB-INF/template.xhtml">
+            <ui:define name="content">
+                 
+                <f:metadata>
+                    <f:viewParam name="termslug" value="#{termMetaEdit.termSlug}"></f:viewParam>
+                    <f:viewParam name="metakey" value="#{termMetaEdit.metaKey}"></f:viewParam>
+                    <f:viewAction action="#{termMetaEdit.fillTermMetaValues()}"/>
+                </f:metadata>
+                <div class="card">
+                    <h1>Edit Term</h1>
+                    Change Term Meta for #{termMetaEdit.termName}
+                </div>
+                <p:panel>
+                    <p:growl autoUpdate="true" showDetail="true"/>   
+                    <h:form id="editTermMeta" styleClass="instanceform">
+                        <p:panelGrid columns="2">
+                            <h:outputLabel for="metaKey" value="Meta Key:" />
+                            <h:inputText id="metaKey" value="#{termMetaEdit.termMetaEdit.termMetaPK.metaKey}" disabled="true" />
+                            <h:outputLabel for="mandatory" value="Is Mandatory ?" />
+                            <p:selectBooleanCheckbox id="mandatory" value="#{termMetaEdit.termMetaEdit.mandatory}" />
+                            <h:outputLabel for="description" value="Description:" />
+                            <h:inputText id="description" value="#{termMetaEdit.termMetaEdit.description}" />
+                            <h:outputLabel for="datatype" value="Data Type:" />
+                            <p:selectOneMenu id="datatype" value="#{termMetaEdit.termMetaEdit.dataType}">
+                                <p:ajax listener="#{termMetaEdit.makeShowHide()}" update="showhide"/>
+                                <f:selectItems value="#{termMetaEdit.inputDataTypes}" />
+                            </p:selectOneMenu>
+                            <h:outputLabel for="manytoone" value="Many to one Term" />
+                            <p:selectOneMenu id="showhide" value="#{termMetaEdit.termMetaEdit.manyToOneTermSlug}" disabled="#{termMetaEdit.disableTermDropDown}">
+                                <f:selectItems value="#{termMetaEdit.termSlugDropDown}" />
+                            </p:selectOneMenu>
+                            <h:outputLabel for="metadetails" value="Detailed Description" />
+                            <p:inputTextarea   id="metadetails" value="#{termMetaEdit.termMetaEdit.details}"/>  
+                        </p:panelGrid>
+                        <div class="card">
+                            <p:commandButton styleClass="button" value="Change" validateClient="true" action="#{termMetaEdit.saveTermMeta()}" />
+                            <p:button styleClass="back-button" value="Back" outcome="TermMetaList" />
+                        </div>
+                    </h:form>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

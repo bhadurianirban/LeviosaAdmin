@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>#{loginController.productName}</title>
+        <script type="text/javascript">
+            $(function () {
+                $('#menu-button').on('click', function (e) {
+                    $('#menu').toggleClass('overlay-menu');
+                    e.preventDefault();
+                });
+            });
+        </script>
+        <link rel="shortcut icon" type="image/x-icon" href="#{loginController.iconAndLogo}"/>
+        <ui:insert name="head"/>
+    </h:head>
+
+    <h:body styleClass="landing-body">
+        <f:metadata>
+            <f:viewParam name="tenant" value="#{loginController.tenantID}"/>
+            <f:viewParam name="product" value="#{loginController.productID}"/>
+            <f:viewAction action="#{loginController.moveToDefaultHost()}" />
+        </f:metadata>
+        <div class="landing-wrapper">
+            <div class="landing-header">
+                <div class="landing-header-content clearfix">
+                    <p:graphicImage name="#{loginController.iconAndLogo}" library="term" width="100" height="40"/>
+
+                    <a id="menu-button" href="#">
+                        <span class="fa fa-bars"></span>
+                    </a>
+                    <ul id="menu">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#mobile">Mobile</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+<!--                        <li><a href="#video">Video</a></li>-->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="intro">
+                <image src="#{loginController.selectedHomeImg}"  height="700" width="100%"/>
+                <div class="intro-content">
+                    <span class="title">#{loginController.productName}</span>
+                    <span class="subtitle">#{loginController.productCaption} </span>
+                    <div id="indeximage">
+                        <image src="#{loginController.homeScreenLogo}" height="100%"/>
+                    </div>
+                    <div id="loginhost">
+                        <p:button  styleClass="button" value="Enter #{loginController.tenantName}" outcome="Login" />
+                    </div>
+                    <div id="changehost">
+                        <p:button  styleClass="button" value="Other" outcome="SelectTenant" />
+                    </div>
+                </div>
+            </div>
+
+            <div id="features">
+                <div class="features-content">
+                    <span class="feature-title">CMS Admin</span>
+                    <p>Administration of terms and term meta as well as permissions for term for all products using DGRF CMS.</p>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_1.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>Term</span>
+                                <p>A term can be treated as an entity..</p>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_2.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>Term Meta</span>
+                                <p>All the attributes that are attached to a term is the meta for that term.</p>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_3.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>Term Meta Order</span>
+                                <p>Term meta can be ordered for their display purposes.</p>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_4.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>Term Relations</span>
+                                <p>A term can be related to another term in one-to-many and many-to-many relations.</p>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_5.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>Menu</span>
+                                <p>Dynamic menu can be created for inserting data in a term.</p>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <p:graphicImage name="images/landing/section2_6.png" library="omega-layout" styleClass="feature-icon"/>
+                            <span class="feature-text">
+                                <span>Security</span>
+                                <p>A term can be authorised to a particular role and accordingly the menu will be generated for that user.</p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobile">
+                <div class="mobile-content">
+                    <span class="title">Responsive</span>
+                    <span class="subtitle">Can be easily handled in mobile devices.</span>
+                    <p:graphicImage name="images/landing/section3_mobile.png" library="omega-layout" />
+                    
+                </div>
+            </div>
+
+            <div id="pricing">
+                <div class="pricing-content">
+                    <span class="pricing-title">Pricing</span>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                        doloremque laudantium, totam rem aperiam.</p>
+
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4">
+                            <div class="pricing-basic pricing-box">
+                                <span class="pricing-name">Basic</span>
+                                <div class="pricing-fee">₹10,000</div>
+
+                                <p>1 years of service</p>
+                                <p>1GB Data Storage</p>
+                                <p>2 Users</p>
+                                <p>2 months free maintenance</p>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-4">
+                            <div class="pricing-standard pricing-box">
+                                <span class="pricing-name">Standard</span>
+                                <div class="pricing-fee">₹20,000</div>
+
+                                <p>2 years of service</p>
+                                <p>5GB Data Storage</p>
+                                <p>10 Users</p>
+                                <p>1 years free maintenance</p>
+                            </div>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-4">
+                            <div class="pricing-professional pricing-box">
+                                <span class="pricing-name">Professional</span>
+                                <div class="pricing-fee">₹60,000</div>
+
+                                <p>5 years of service</p>
+                                <p>10GB Data Storage</p>
+                                <p>50 Users</p>
+                                <p>Free maintenance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!--            <div id="video">
+                <div class="video-content">
+                    <span class="video-title">Video</span>
+                    <p>And the day came when the risk to remain tight in a bud was more painful than the risk it took to blossom</p>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/GHAMyHerv90" frameborder="0" width="560"></iframe>
+                    </div>
+                </div>
+            </div>-->
+
+            <div class="landing-footer">
+                <div class="landing-footer-content">
+
+
+                    <div class="footer-bottom">
+                        ©  <a class="tag-cloud-link" href="http://www.dgfoundation.in">Deepa Ghosh Research Foundation</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h:outputStylesheet name="css/layout.css" library="omega-layout" />
+        <h:outputStylesheet name="#{loginController.selectedTheme}" library="term" />
+    </h:body>
+
+</html>

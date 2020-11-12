@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="/WEB-INF/template.xhtml">
+
+            <ui:define name="content">
+                <f:metadata>
+                    <f:viewAction action="#{menuAdd.fillAddScreen()}"/>
+                </f:metadata>
+                <div class="card">
+                    <h1>Add Menu</h1>
+                    Add new Menu Item
+                </div>
+                <p:panel>
+                    <h:form id="addMenuform" styleClass="instanceform">
+                        <p:growl id="growl"  showDetail="true" autoUpdate="true" />    
+                        <p:panelGrid columns="2">
+
+                            <h:outputLabel for="id" value="Id" />
+                            <h:inputText id="id" value="#{menuAdd.menu.id}" required="true" disabled="true">
+                               
+                            </h:inputText>
+
+                            <h:outputLabel for="name" value="Name" />
+                            <h:inputText id="name" value="#{menuAdd.menu.name}" required="true"/>
+
+                            <h:outputLabel for="parentmenu" value="Parent" />
+                            <p:selectOneMenu id="parentmenu" value="#{menuAdd.menu.parent}">
+                                <f:selectItem itemValue="#{null}" itemLabel="None" />
+                                <f:selectItems value="#{menuAdd.parentMenuDropDown}" />
+                            </p:selectOneMenu>
+
+                            <h:outputLabel for="termname" value="Term" />
+                            <p:selectOneMenu id="termname" value="#{menuAdd.menu.termSlug}">
+                                
+                                <f:selectItems value="#{menuAdd.termDropDown}" />
+                            </p:selectOneMenu>
+                            
+                        </p:panelGrid>
+                        <div class="card">
+                            <p:commandButton styleClass="button" value="Add"  action="#{menuAdd.add()}" update="growl"/> 
+                            <p:button styleClass="back-button" value="Back" outcome="MenuList" />
+                        </div>
+                    </h:form>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
