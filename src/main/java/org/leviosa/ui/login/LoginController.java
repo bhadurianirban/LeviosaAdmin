@@ -225,11 +225,11 @@ public class LoginController implements Serializable {
         StringBuilder sb = new StringBuilder(contextPath);
         sb.deleteCharAt(0);
         productName = sb.toString();
-        productCaption = "Time you enjoy wasting is not wasted time.";
+        productCaption = "Don’t let the muggles get you down...";
         selectedTheme = "css/term-blue.css";
-        homeScreenLogo = contextPath + "/faces/javax.faces.resource/term/images/default-butterfly.png";
-        iconAndLogo = contextPath + "/faces/javax.faces.resource/term/images/dgrflogo.png";
-        selectedHomeImg = contextPath + "/faces/javax.faces.resource/term/images/dgrf-default-home-img.jpg";
+        homeScreenLogo = contextPath + "/faces/javax.faces.resource/term/images/logo.png";
+        iconAndLogo = contextPath + "/faces/javax.faces.resource/term/images/logo.png";
+        selectedHomeImg = contextPath + "/faces/javax.faces.resource/term/images/default-home-img.jpg";
 
     }
 
