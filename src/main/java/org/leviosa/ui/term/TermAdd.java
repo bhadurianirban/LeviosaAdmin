@@ -54,7 +54,7 @@ public class TermAdd implements Serializable {
 
     public void fillTermValues() {
         CMSServiceCore mts = new CMSServiceCore();
-        RoleListClient dgrfrlc = new RoleListClient();
+        RoleListClient dgrfrlc = new RoleListClient(CMSClientAuthCredentialValue.AUTH_CREDENTIALS.getHedwigServer(),CMSClientAuthCredentialValue.AUTH_CREDENTIALS.getHedwigServerPort());
         RoleDTO roleDTO = new RoleDTO();
         roleDTO.setCloudAuthCredentials(CMSClientAuthCredentialValue.AUTH_CREDENTIALS);
         roleDTO = dgrfrlc.getRoleList(roleDTO);

@@ -15,13 +15,14 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import org.leviosa.bl.service.DatabaseConnection;
 import org.hedwig.cloud.client.TenantListClient;
 import org.hedwig.cloud.dto.ProductDTO;
 import org.hedwig.cloud.dto.TenantDTO;
 import org.hedwig.cloud.dto.UserAuthDTO;
-import org.hedwig.cloud.client.DGRFProductListClient;
+import org.hedwig.cloud.client.ProductListClient;
 import org.hedwig.cloud.client.UserAuthClient;
 import org.hedwig.cloud.response.HedwigResponseCode;
 import org.hedwig.cloud.dto.HedwigAuthCredentials;
@@ -52,10 +53,11 @@ public class LoginController implements Serializable {
 
     private Map<String, Object> tenantMap;
     private Map<String, Object> productMap;
-
+    @Inject
+    private ServletContext context;
     public LoginController() {
     }
-
+    
     @PostConstruct
     private void init() {
         userAuthDTO = new UserAuthDTO();
@@ -72,7 +74,9 @@ public class LoginController implements Serializable {
     }
 
     public void fillLOginFormValues() {
-        TenantListClient dgrftlc = new TenantListClient();
+        String hedwigServer = context.getInitParameter("HedwigServerName");
+        String hedwigServerPort = context.getInitParameter("HedwigServerPort");
+        TenantListClient dgrftlc = new TenantListClient(hedwigServer,hedwigServerPort);
         List<TenantDTO> tenantDTOs = dgrftlc.getTenantList(productID);
         tenantMap = new HashMap<>();
         for (TenantDTO tdto : tenantDTOs) {
@@ -81,7 +85,9 @@ public class LoginController implements Serializable {
     }
 
     public void fillCMSProductList() {
-        DGRFProductListClient dgrfplc = new DGRFProductListClient();
+        String hedwigServer = context.getInitParameter("HedwigServerName");
+        String hedwigServerPort = context.getInitParameter("HedwigServerPort");
+        ProductListClient dgrfplc = new ProductListClient(hedwigServer,hedwigServerPort);
         List<ProductDTO> dgrfProductDTOs = dgrfplc.getProductList();
         productMap = dgrfProductDTOs.stream().collect(Collectors.toMap(ProductDTO::getProductName, ProductDTO::getProductId));
     }
@@ -92,16 +98,21 @@ public class LoginController implements Serializable {
         authCredentials.setPassword(password);
         authCredentials.setProductId(productID);
         authCredentials.setTenantId(tenantID);
+        authCredentials.setHedwigServer(userAuthDTO.getHedwigServer());
+        authCredentials.setHedwigServerPort(userAuthDTO.getHedwigServerPort());
         CMSClientAuthCredentialValue.AUTH_CREDENTIALS = authCredentials;
     }
 
     public String login() {
-        //userAuthBean = new UserAuthBean();
-        UserAuthClient uac = new UserAuthClient();
+        String hedwigServer = context.getInitParameter("HedwigServerName");
+        String hedwigServerPort = context.getInitParameter("HedwigServerPort");
+        userAuthDTO.setHedwigServer(hedwigServer);
+        userAuthDTO.setHedwigServerPort(hedwigServerPort);
         userAuthDTO.setUserId(userID);
         userAuthDTO.setPassword(password);
         userAuthDTO.setProductId(productID);
         userAuthDTO.setTenantId(tenantID);
+        UserAuthClient uac = new UserAuthClient(userAuthDTO.getHedwigServer(),userAuthDTO.getHedwigServerPort());
         userAuthDTO = uac.authenticateUser(userAuthDTO);
         FacesMessage message;
 
@@ -200,7 +211,9 @@ public class LoginController implements Serializable {
             return "SelectTenant";
         }
 
-        TenantListClient dgrftlc = new TenantListClient();
+        String hedwigServer = context.getInitParameter("HedwigServerName");
+        String hedwigServerPort = context.getInitParameter("HedwigServerPort");
+        TenantListClient dgrftlc = new TenantListClient(hedwigServer,hedwigServerPort);
         List<TenantDTO> tenantDTOs = dgrftlc.getTenantList(productID);
         if (tenantDTOs == null) {
             return "access";

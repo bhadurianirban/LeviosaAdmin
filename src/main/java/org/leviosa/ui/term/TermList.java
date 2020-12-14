@@ -17,7 +17,7 @@ import javax.faces.view.ViewScoped;
 import org.leviosa.bl.service.CMSServiceCore;
 import org.hedwig.cloud.response.HedwigResponseCode;
 import org.hedwig.cloud.response.HedwigResponseMessage;
-import org.hedwig.cms.constants.CMSConstants;
+import org.hedwig.leviosa.constants.CMSConstants;
 
 /**
  *

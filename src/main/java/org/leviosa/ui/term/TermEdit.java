@@ -56,7 +56,7 @@ public class TermEdit implements Serializable {
         CMSServiceCore mts = new CMSServiceCore();
 
         termEdit = mts.getTerm(termSlug);
-        RoleListClient dgrfrlc = new RoleListClient();
+        RoleListClient dgrfrlc = new RoleListClient(CMSClientAuthCredentialValue.AUTH_CREDENTIALS.getHedwigServer(),CMSClientAuthCredentialValue.AUTH_CREDENTIALS.getHedwigServerPort());
         RoleDTO roleDTO = new RoleDTO();
         roleDTO.setCloudAuthCredentials(CMSClientAuthCredentialValue.AUTH_CREDENTIALS);
         roleDTO = dgrfrlc.getRoleList(roleDTO);
