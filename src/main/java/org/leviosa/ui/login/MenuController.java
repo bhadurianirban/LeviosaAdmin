@@ -44,22 +44,13 @@ public class MenuController {
            
                 
                 menuModel = new DefaultMenuModel();
+                DefaultMenuItem termUpdate = DefaultMenuItem.builder().value("Term").outcome("/cms/Term/TermList").build();
+                DefaultMenuItem menuUpdate = DefaultMenuItem.builder().value("Menu").outcome("/cms/Menu/MenuList").build();
+                DefaultSubMenu termManage =  DefaultSubMenu.builder().label("Term Admin").addElement(termUpdate).build();
+                DefaultSubMenu menuManage = DefaultSubMenu.builder().label("Menu Admin").addElement(menuUpdate).build();
 
-                DefaultSubMenu termManage = new DefaultSubMenu("Term Admin");
-                DefaultMenuItem termUpdate = new DefaultMenuItem("Term");
-                termUpdate.setOutcome("/cms/Term/TermList");
-                termManage.addElement(termUpdate);
-                
-                DefaultSubMenu menuManage = new DefaultSubMenu("Menu Admin");
-                DefaultMenuItem menuUpdate = new DefaultMenuItem("Menu");
-                menuUpdate.setOutcome("/cms/Menu/MenuList");
-                menuManage.addElement(menuUpdate);
-                
-                
-                //MenuMaker menuMaker = new MenuMaker();
-                //menuModel.addElement(menuMaker.getUserMenu());
-                menuModel.addElement(termManage);
-                menuModel.addElement(menuManage);
+                menuModel.getElements().add(termManage);
+                menuModel.getElements().add(menuManage);
 
 
         }
